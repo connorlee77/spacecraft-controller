@@ -5,6 +5,10 @@ import Estimator
 import Controller
 import Dynamics 
 
-if __name__ == '__main__':
+def main():
 
-	print('hello')
+	ctrl = Controller()
+	dyn = Dynamics()
+
+if __name__ == '__main__':
+	main()
