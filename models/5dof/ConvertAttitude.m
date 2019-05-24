@@ -46,6 +46,8 @@ function [newAttitude,DCM] = ConvertAttitude(attitude,old,new)
 %   these attitude parameter sets.
 %
 %   Joshua Chabot 2014
+%   Editted by Parker Brown for use with the Space Craft Simulator 5DOF
+%   Controller Simulink Model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % DCM orthonormal warning tolerance
@@ -83,8 +85,8 @@ old = lower(old);
 new = lower(new);
 
 % Remove Spaces in Strings
-old = regexprep(old,' ','');
-new = regexprep(new,' ','');
+% old = regexprep(old,' ','');
+% new = regexprep(new,' ','');
 
 % Rotation Matrices
 ROT1 = @(t) [1   0 0;
@@ -233,6 +235,7 @@ switch old
 end
         
 %% Conversion to New Parameter Set
+newAttitude = zeros(3,n);
 switch new
     case {'dcm','directioncosinematrix'}
         newAttitude(:,:,n) = C;
@@ -313,12 +316,14 @@ end
 function b = DCM2Quaternion(C)
 % Converts DCM to quaternions via the Stanley Method
 
+B2 = zeros(1,4);
 B2(1) = (1+trace(C))/4;
 B2(2) = (1+2*C(1,1)-trace(C))/4;
 B2(3) = (1+2*C(2,2)-trace(C))/4;
 B2(4) = (1+2*C(3,3)-trace(C))/4;
 
 [~,i] = max(B2);
+b = zeros(1,4);
 switch i
 	case 1
 		b(1) = sqrt(B2(1));
